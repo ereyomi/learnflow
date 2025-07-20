@@ -208,6 +208,7 @@ export default function Component() {
   ]
 
   const resources = [
+    // Frontend - HTML Basics
     {
       id: "resource-1",
       title: "HTML5 Semantic Elements Guide",
@@ -221,6 +222,30 @@ export default function Component() {
     },
     {
       id: "resource-2",
+      title: "HTML Validator Tool",
+      description: "Validate your HTML code and check for errors and best practices.",
+      type: "tool",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "html-basics",
+      url: "https://validator.w3.org/",
+      duration: "Interactive",
+    },
+    {
+      id: "resource-3",
+      title: "Build Your First Webpage",
+      description: "Create a complete personal portfolio webpage using semantic HTML.",
+      type: "practice",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "html-basics",
+      url: "https://www.freecodecamp.org/learn/responsive-web-design/basic-html-and-html5/",
+      duration: "2 hours",
+    },
+
+    // Frontend - CSS Fundamentals
+    {
+      id: "resource-4",
       title: "CSS Flexbox Complete Tutorial",
       description: "Master CSS Flexbox layout with practical examples.",
       type: "video",
@@ -231,7 +256,42 @@ export default function Component() {
       duration: "35 min",
     },
     {
-      id: "resource-3",
+      id: "resource-5",
+      title: "CSS Grid vs Flexbox: When to Use What",
+      description: "Comprehensive guide on choosing between CSS Grid and Flexbox for different layouts.",
+      type: "article",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "css-fundamentals",
+      url: "https://css-tricks.com/quick-whats-the-difference-between-flexbox-and-grid/",
+      duration: "8 min read",
+    },
+    {
+      id: "resource-6",
+      title: "CSS Grid Generator",
+      description: "Interactive tool to generate CSS Grid layouts with visual interface.",
+      type: "tool",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "css-fundamentals",
+      url: "https://cssgrid-generator.netlify.app/",
+      duration: "Interactive",
+    },
+    {
+      id: "resource-7",
+      title: "Responsive Design Challenge",
+      description: "Build a responsive website that works on mobile, tablet, and desktop.",
+      type: "practice",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "css-fundamentals",
+      url: "https://www.frontendmentor.io/challenges",
+      duration: "3-5 hours",
+    },
+
+    // Frontend - JavaScript Basics
+    {
+      id: "resource-8",
       title: "JavaScript ES6+ Features",
       description: "Modern JavaScript features every developer should know.",
       type: "article",
@@ -242,7 +302,42 @@ export default function Component() {
       duration: "15 min read",
     },
     {
-      id: "resource-4",
+      id: "resource-9",
+      title: "JavaScript Fundamentals Course",
+      description: "Complete beginner-friendly course covering all JavaScript basics.",
+      type: "video",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "javascript-basics",
+      url: "https://www.youtube.com/watch?v=hdI2bqOjy3c",
+      duration: "3 hours",
+    },
+    {
+      id: "resource-10",
+      title: "JavaScript Console & Debugger",
+      description: "Browser developer tools for testing and debugging JavaScript code.",
+      type: "tool",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "javascript-basics",
+      url: "https://developer.chrome.com/docs/devtools/console/",
+      duration: "Reference",
+    },
+    {
+      id: "resource-11",
+      title: "30 Days of JavaScript Challenges",
+      description: "Daily coding challenges to practice JavaScript fundamentals.",
+      type: "practice",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "javascript-basics",
+      url: "https://javascript30.com/",
+      duration: "30 days",
+    },
+
+    // Frontend - React Framework
+    {
+      id: "resource-12",
       title: "React Hooks Explained",
       description: "Complete guide to React Hooks with examples.",
       type: "video",
@@ -251,6 +346,223 @@ export default function Component() {
       stepId: "react-framework",
       url: "https://www.youtube.com/watch?v=O6P86uwfdR0",
       duration: "45 min",
+    },
+    {
+      id: "resource-13",
+      title: "React Component Patterns",
+      description: "Best practices and patterns for writing maintainable React components.",
+      type: "article",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "react-framework",
+      url: "https://react.dev/learn/thinking-in-react",
+      duration: "12 min read",
+    },
+    {
+      id: "resource-14",
+      title: "React Developer Tools",
+      description: "Browser extension for debugging React applications.",
+      type: "tool",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "react-framework",
+      url: "https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi",
+      duration: "Extension",
+    },
+    {
+      id: "resource-15",
+      title: "Build a Todo App with React",
+      description: "Step-by-step project to create a fully functional todo application.",
+      type: "practice",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "react-framework",
+      url: "https://www.example.com/react-todo-tutorial",
+      duration: "4 hours",
+    },
+
+    // Backend - Programming Language
+    {
+      id: "resource-16",
+      title: "Python vs Node.js: Which to Choose?",
+      description: "Comprehensive comparison of Python and Node.js for backend development.",
+      type: "article",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "backend",
+      stepId: "programming-language",
+      url: "https://www.example.com/python-vs-nodejs",
+      duration: "10 min read",
+    },
+    {
+      id: "resource-17",
+      title: "Node.js Crash Course",
+      description: "Learn Node.js fundamentals and build your first server.",
+      type: "video",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "backend",
+      stepId: "programming-language",
+      url: "https://www.youtube.com/watch?v=fBNz5xF-Kx4",
+      duration: "90 min",
+    },
+    {
+      id: "resource-18",
+      title: "Online Python Interpreter",
+      description: "Run Python code directly in your browser without installation.",
+      type: "tool",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "backend",
+      stepId: "programming-language",
+      url: "https://repl.it/languages/python3",
+      duration: "Interactive",
+    },
+    {
+      id: "resource-19",
+      title: "Build a REST API",
+      description: "Create your first REST API using Express.js and Node.js.",
+      type: "practice",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "backend",
+      stepId: "programming-language",
+      url: "https://www.example.com/build-rest-api",
+      duration: "3 hours",
+    },
+
+    // Backend - Databases
+    {
+      id: "resource-20",
+      title: "SQL vs NoSQL: Complete Guide",
+      description: "Understanding the differences and when to use each database type.",
+      type: "article",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "backend",
+      stepId: "databases",
+      url: "https://www.mongodb.com/nosql-explained/nosql-vs-sql",
+      duration: "12 min read",
+    },
+    {
+      id: "resource-21",
+      title: "PostgreSQL Tutorial for Beginners",
+      description: "Complete guide to PostgreSQL database management.",
+      type: "video",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "backend",
+      stepId: "databases",
+      url: "https://www.youtube.com/watch?v=qw--VYLpxG4",
+      duration: "4 hours",
+    },
+    {
+      id: "resource-22",
+      title: "DB Diagram Tool",
+      description: "Visual database design tool for creating ER diagrams.",
+      type: "tool",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "backend",
+      stepId: "databases",
+      url: "https://dbdiagram.io/",
+      duration: "Interactive",
+    },
+    {
+      id: "resource-23",
+      title: "Database Design Project",
+      description: "Design and implement a database for an e-commerce application.",
+      type: "practice",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "backend",
+      stepId: "databases",
+      url: "https://www.example.com/database-design-project",
+      duration: "6 hours",
+    },
+
+    // DevOps - Linux Basics
+    {
+      id: "resource-24",
+      title: "Linux Command Line Essentials",
+      description: "Master the most important Linux commands for system administration.",
+      type: "article",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "devops",
+      stepId: "linux-basics",
+      url: "https://www.digitalocean.com/community/tutorials/linux-commands",
+      duration: "20 min read",
+    },
+    {
+      id: "resource-25",
+      title: "Linux for Beginners Course",
+      description: "Complete beginner course covering Linux fundamentals.",
+      type: "video",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "devops",
+      stepId: "linux-basics",
+      url: "https://www.youtube.com/watch?v=sWbUDq4S6Y8",
+      duration: "5 hours",
+    },
+    {
+      id: "resource-26",
+      title: "Linux Command Cheat Sheet",
+      description: "Quick reference for essential Linux commands and shortcuts.",
+      type: "tool",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "devops",
+      stepId: "linux-basics",
+      url: "https://www.linuxtrainingacademy.com/linux-commands-cheat-sheet/",
+      duration: "Reference",
+    },
+    {
+      id: "resource-27",
+      title: "Linux System Administration Lab",
+      description: "Hands-on exercises for managing users, permissions, and services.",
+      type: "practice",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "devops",
+      stepId: "linux-basics",
+      url: "https://www.example.com/linux-admin-lab",
+      duration: "8 hours",
+    },
+
+    // AI Engineer - AI Fundamentals
+    {
+      id: "resource-28",
+      title: "Machine Learning Explained",
+      description: "Comprehensive introduction to machine learning concepts and algorithms.",
+      type: "article",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "ai-engineer",
+      stepId: "ai-fundamentals",
+      url: "https://www.example.com/ml-explained",
+      duration: "25 min read",
+    },
+    {
+      id: "resource-29",
+      title: "AI and Machine Learning Course",
+      description: "Complete course covering AI fundamentals and practical applications.",
+      type: "video",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "ai-engineer",
+      stepId: "ai-fundamentals",
+      url: "https://www.youtube.com/watch?v=ukzFI9rgwfU",
+      duration: "10 hours",
+    },
+    {
+      id: "resource-30",
+      title: "Jupyter Notebook Environment",
+      description: "Interactive environment for data science and machine learning experiments.",
+      type: "tool",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "ai-engineer",
+      stepId: "ai-fundamentals",
+      url: "https://jupyter.org/try",
+      duration: "Interactive",
+    },
+    {
+      id: "resource-31",
+      title: "Build Your First ML Model",
+      description: "Create a machine learning model to predict house prices using Python.",
+      type: "practice",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "ai-engineer",
+      stepId: "ai-fundamentals",
+      url: "https://www.kaggle.com/learn/intro-to-machine-learning",
+      duration: "4 hours",
     },
   ]
 
@@ -542,8 +854,12 @@ export default function Component() {
                             <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-t-lg">
                               {resource.type === "video" ? (
                                 <Play className="h-12 w-12 text-white" />
+                              ) : resource.type === "tool" ? (
+                                <Wrench className="h-12 w-12 text-white" />
+                              ) : resource.type === "practice" ? (
+                                <ClipboardList className="h-12 w-12 text-white" />
                               ) : (
-                                <ExternalLink className="h-8 w-8 text-white" />
+                                <Book className="h-12 w-12 text-white" />
                               )}
                             </div>
                           </div>
@@ -553,7 +869,20 @@ export default function Component() {
                         <div className="mb-2 flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             {getTypeIcon(resource.type)}
-                            <Badge variant="secondary" className="capitalize bg-slate-700 text-slate-300">
+                            <Badge
+                              variant="secondary"
+                              className={`capitalize ${
+                                resource.type === "video"
+                                  ? "bg-red-600 text-white"
+                                  : resource.type === "article"
+                                    ? "bg-blue-600 text-white"
+                                    : resource.type === "tool"
+                                      ? "bg-green-600 text-white"
+                                      : resource.type === "practice"
+                                        ? "bg-purple-600 text-white"
+                                        : "bg-slate-700 text-slate-300"
+                              }`}
+                            >
                               {resource.type}
                             </Badge>
                           </div>
@@ -571,7 +900,11 @@ export default function Component() {
                               className="w-full bg-transparent border-slate-600 text-slate-300 hover:bg-slate-700"
                             >
                               <ExternalLink className="h-4 w-4 mr-2" />
-                              Access Resource
+                              {resource.type === "tool"
+                                ? "Open Tool"
+                                : resource.type === "practice"
+                                  ? "Start Practice"
+                                  : "Access Resource"}
                             </Button>
                           </Link>
                         )}
@@ -581,7 +914,98 @@ export default function Component() {
                 </div>
               </TabsContent>
 
-              {/* Other tab contents would be similar with filtered resources */}
+              {/* Filtered tabs */}
+              {["video", "article", "tool", "practice"].map((type) => (
+                <TabsContent key={type} value={type} className="mt-8">
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    {getCurrentResources()
+                      .filter((r) => r.type === type)
+                      .map((resource) => (
+                        <Card key={resource.id} className="bg-slate-800 border-slate-700">
+                          <CardHeader className="p-0">
+                            {resource.type === "video" && resource.url && getYouTubeVideoId(resource.url) ? (
+                              <div className="relative w-full aspect-video rounded-t-lg overflow-hidden">
+                                <iframe
+                                  src={`https://www.youtube.com/embed/${getYouTubeVideoId(resource.url)}`}
+                                  title={resource.title}
+                                  frameBorder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                  allowFullScreen
+                                  className="absolute inset-0 w-full h-full"
+                                ></iframe>
+                              </div>
+                            ) : (
+                              <div className="relative">
+                                <Image
+                                  src={resource.thumbnail || "/placeholder.svg"}
+                                  alt={resource.title}
+                                  width={320}
+                                  height={180}
+                                  className="aspect-video w-full rounded-t-lg object-cover"
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-t-lg">
+                                  {resource.type === "video" ? (
+                                    <Play className="h-12 w-12 text-white" />
+                                  ) : resource.type === "tool" ? (
+                                    <Wrench className="h-12 w-12 text-white" />
+                                  ) : resource.type === "practice" ? (
+                                    <ClipboardList className="h-12 w-12 text-white" />
+                                  ) : (
+                                    <Book className="h-12 w-12 text-white" />
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          </CardHeader>
+                          <CardContent className="p-4">
+                            <div className="mb-2 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                {getTypeIcon(resource.type)}
+                                <Badge
+                                  variant="secondary"
+                                  className={`capitalize ${
+                                    resource.type === "video"
+                                      ? "bg-red-600 text-white"
+                                      : resource.type === "article"
+                                        ? "bg-blue-600 text-white"
+                                        : resource.type === "tool"
+                                          ? "bg-green-600 text-white"
+                                          : resource.type === "practice"
+                                            ? "bg-purple-600 text-white"
+                                            : "bg-slate-700 text-slate-300"
+                                  }`}
+                                >
+                                  {resource.type}
+                                </Badge>
+                              </div>
+                              <span className="text-xs text-slate-400">{resource.duration}</span>
+                            </div>
+                            <CardTitle className="text-lg font-semibold mb-2 text-white">{resource.title}</CardTitle>
+                            <CardDescription className="line-clamp-2 mb-4 text-slate-400">
+                              {resource.description}
+                            </CardDescription>
+                            {resource.url && (
+                              <Link href={resource.url} target="_blank" rel="noopener noreferrer" className="block">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="w-full bg-transparent border-slate-600 text-slate-300 hover:bg-slate-700"
+                                >
+                                  <ExternalLink className="h-4 w-4 mr-2" />
+                                  {resource.type === "tool"
+                                    ? "Open Tool"
+                                    : resource.type === "practice"
+                                      ? "Start Practice"
+                                      : "Access Resource"}
+                                </Button>
+                              </Link>
+                            )}
+                          </CardContent>
+                        </Card>
+                      ))}
+                  </div>
+                </TabsContent>
+              ))}
             </Tabs>
           </div>
         )}
