@@ -3,15 +3,11 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import {
-  Search,
   Book,
   Video,
   Wrench,
@@ -21,12 +17,23 @@ import {
   ArrowLeft,
   Play,
   ExternalLink,
+  Monitor,
+  Server,
+  Smartphone,
+  Database,
+  Brain,
+  Shield,
+  Palette,
+  BarChart3,
+  Globe,
+  Cpu,
+  Plus,
 } from "lucide-react"
 
 export default function Component() {
-  const [currentView, setCurrentView] = useState<"paths" | "modules" | "resources">("paths")
-  const [selectedPath, setSelectedPath] = useState<string | null>(null)
-  const [selectedModule, setSelectedModule] = useState<string | null>(null)
+  const [currentView, setCurrentView] = useState<"roadmaps" | "roadmap-detail" | "resources">("roadmaps")
+  const [selectedRoadmap, setSelectedRoadmap] = useState<string | null>(null)
+  const [selectedStep, setSelectedStep] = useState<string | null>(null)
 
   const getYouTubeVideoId = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
@@ -34,270 +41,244 @@ export default function Component() {
     return match && match[2].length === 11 ? match[2] : null
   }
 
-  const learningPaths = [
+  const roleBasedRoadmaps = [
     {
-      id: "video-editing",
-      name: "Video Editing Fundamentals",
-      description: "Master the basics of video editing, from software essentials to advanced techniques.",
-      thumbnail: "/placeholder.svg?height=200&width=300",
-      duration: "8 weeks",
-      level: "Beginner",
-      modules: [
+      id: "frontend",
+      title: "Frontend",
+      description: "Step by step guide to becoming a modern frontend developer",
+      icon: <Monitor className="h-8 w-8" />,
+      color: "bg-blue-500",
+      steps: [
+        { id: "html-basics", title: "Learn HTML", description: "Structure web pages with semantic HTML" },
+        { id: "css-fundamentals", title: "CSS Fundamentals", description: "Style and layout web pages" },
+        { id: "javascript-basics", title: "JavaScript Basics", description: "Add interactivity to web pages" },
+        { id: "react-framework", title: "React Framework", description: "Build modern web applications" },
+        { id: "build-tools", title: "Build Tools", description: "Webpack, Vite, and modern tooling" },
+      ],
+    },
+    {
+      id: "backend",
+      title: "Backend",
+      description: "Step by step guide to becoming a backend developer",
+      icon: <Server className="h-8 w-8" />,
+      color: "bg-green-500",
+      steps: [
+        { id: "programming-language", title: "Pick a Language", description: "Choose Python, Node.js, or Java" },
+        { id: "databases", title: "Learn Databases", description: "SQL and NoSQL databases" },
+        { id: "apis", title: "APIs & Web Services", description: "REST, GraphQL, and microservices" },
+        { id: "deployment", title: "Deployment", description: "Docker, AWS, and cloud platforms" },
+      ],
+    },
+    {
+      id: "devops",
+      title: "DevOps",
+      description: "Step by step guide to becoming a DevOps engineer",
+      icon: <Cpu className="h-8 w-8" />,
+      color: "bg-purple-500",
+      steps: [
+        { id: "linux-basics", title: "Linux Basics", description: "Command line and system administration" },
+        { id: "containerization", title: "Containerization", description: "Docker and Kubernetes" },
+        { id: "ci-cd", title: "CI/CD", description: "Continuous integration and deployment" },
+        { id: "monitoring", title: "Monitoring", description: "Application and infrastructure monitoring" },
+      ],
+    },
+    {
+      id: "mobile",
+      title: "Mobile Developer",
+      description: "Step by step guide to becoming a mobile app developer",
+      icon: <Smartphone className="h-8 w-8" />,
+      color: "bg-pink-500",
+      steps: [
+        { id: "mobile-basics", title: "Mobile Fundamentals", description: "iOS and Android development basics" },
+        { id: "react-native", title: "React Native", description: "Cross-platform mobile development" },
+        { id: "native-development", title: "Native Development", description: "Swift for iOS, Kotlin for Android" },
+        { id: "app-store", title: "App Store Deployment", description: "Publishing to app stores" },
+      ],
+    },
+    {
+      id: "data-scientist",
+      title: "Data Scientist",
+      description: "Step by step guide to becoming a data scientist",
+      icon: <BarChart3 className="h-8 w-8" />,
+      color: "bg-orange-500",
+      steps: [
+        { id: "python-data", title: "Python for Data Science", description: "NumPy, Pandas, and data manipulation" },
+        { id: "statistics", title: "Statistics & Math", description: "Statistical analysis and mathematics" },
+        { id: "machine-learning", title: "Machine Learning", description: "ML algorithms and frameworks" },
         {
-          id: "intro-ve",
-          name: "Introduction to Video Editing",
-          description: "Learn the basics of video editing and industry standards",
-          duration: "1 week",
-        },
-        {
-          id: "software-basics",
-          name: "Software Basics (Premiere Pro)",
-          description: "Get familiar with Adobe Premiere Pro interface and tools",
-          duration: "2 weeks",
-        },
-        {
-          id: "timeline-editing",
-          name: "Timeline Editing & Transitions",
-          description: "Master timeline editing and smooth transitions",
-          duration: "1.5 weeks",
-        },
-        {
-          id: "audio-mixing",
-          name: "Audio Mixing & Sound Design",
-          description: "Learn professional audio editing techniques",
-          duration: "2 weeks",
-        },
-        {
-          id: "color-grading",
-          name: "Color Grading & Correction",
-          description: "Advanced color correction and grading workflows",
-          duration: "1.5 weeks",
+          id: "data-visualization",
+          title: "Data Visualization",
+          description: "Creating insights through visualization",
         },
       ],
     },
     {
-      id: "coding-basics",
-      name: "Coding for Beginners",
-      description: "Learn the foundational concepts of programming, starting with Python.",
-      thumbnail: "/placeholder.svg?height=200&width=300",
-      duration: "10 weeks",
-      level: "Beginner",
-      modules: [
-        {
-          id: "intro-coding",
-          name: "What is Coding?",
-          description: "Understanding programming fundamentals and concepts",
-          duration: "1 week",
-        },
-        {
-          id: "python-syntax",
-          name: "Python Syntax & Data Types",
-          description: "Learn Python basics, variables, and data types",
-          duration: "2 weeks",
-        },
-        {
-          id: "control-flow",
-          name: "Control Flow & Functions",
-          description: "Master loops, conditions, and function creation",
-          duration: "2.5 weeks",
-        },
-        {
-          id: "data-structures",
-          name: "Basic Data Structures",
-          description: "Work with lists, dictionaries, and sets",
-          duration: "2 weeks",
-        },
-        {
-          id: "oop-intro",
-          name: "Introduction to OOP",
-          description: "Object-oriented programming concepts in Python",
-          duration: "2.5 weeks",
-        },
+      id: "ai-engineer",
+      title: "AI Engineer",
+      description: "Step by step guide to becoming an AI engineer",
+      icon: <Brain className="h-8 w-8" />,
+      color: "bg-indigo-500",
+      badge: "New",
+      steps: [
+        { id: "ai-fundamentals", title: "AI Fundamentals", description: "Machine learning and deep learning basics" },
+        { id: "neural-networks", title: "Neural Networks", description: "Understanding neural network architectures" },
+        { id: "nlp", title: "Natural Language Processing", description: "Working with text and language models" },
+        { id: "ai-deployment", title: "AI Model Deployment", description: "Deploying AI models to production" },
       ],
     },
     {
-      id: "web-development",
-      name: "Web Development Essentials",
-      description: "Build modern websites with HTML, CSS, and JavaScript.",
-      thumbnail: "/placeholder.svg?height=200&width=300",
-      duration: "12 weeks",
-      level: "Intermediate",
-      modules: [
+      id: "cybersecurity",
+      title: "Cyber Security",
+      description: "Step by step guide to becoming a cybersecurity expert",
+      icon: <Shield className="h-8 w-8" />,
+      color: "bg-red-500",
+      steps: [
         {
-          id: "html-basics",
-          name: "HTML Fundamentals",
-          description: "Structure web pages with semantic HTML",
-          duration: "2 weeks",
+          id: "security-basics",
+          title: "Security Fundamentals",
+          description: "Basic security concepts and principles",
         },
+        { id: "network-security", title: "Network Security", description: "Securing networks and communications" },
         {
-          id: "css-styling",
-          name: "CSS Styling & Layout",
-          description: "Style and layout web pages with CSS",
-          duration: "3 weeks",
+          id: "ethical-hacking",
+          title: "Ethical Hacking",
+          description: "Penetration testing and vulnerability assessment",
         },
-        {
-          id: "javascript-basics",
-          name: "JavaScript Fundamentals",
-          description: "Add interactivity with JavaScript",
-          duration: "4 weeks",
-        },
-        {
-          id: "responsive-design",
-          name: "Responsive Web Design",
-          description: "Create mobile-friendly websites",
-          duration: "2 weeks",
-        },
-        {
-          id: "web-projects",
-          name: "Building Web Projects",
-          description: "Apply skills in real-world projects",
-          duration: "1 week",
-        },
+        { id: "incident-response", title: "Incident Response", description: "Handling security incidents" },
       ],
+    },
+    {
+      id: "ux-design",
+      title: "UX Design",
+      description: "Step by step guide to becoming a UX designer",
+      icon: <Palette className="h-8 w-8" />,
+      color: "bg-teal-500",
+      steps: [
+        { id: "design-thinking", title: "Design Thinking", description: "User-centered design process" },
+        { id: "wireframing", title: "Wireframing & Prototyping", description: "Creating design mockups" },
+        { id: "user-research", title: "User Research", description: "Understanding user needs and behavior" },
+        { id: "design-tools", title: "Design Tools", description: "Figma, Sketch, and design software" },
+      ],
+    },
+  ]
+
+  const skillBasedRoadmaps = [
+    {
+      id: "javascript",
+      title: "JavaScript",
+      description: "Complete guide to JavaScript programming",
+      icon: <Code className="h-6 w-6" />,
+      color: "bg-yellow-500",
+    },
+    {
+      id: "python",
+      title: "Python",
+      description: "Learn Python programming from basics to advanced",
+      icon: <Code className="h-6 w-6" />,
+      color: "bg-blue-600",
+    },
+    {
+      id: "sql",
+      title: "SQL",
+      description: "Master database queries and management",
+      icon: <Database className="h-6 w-6" />,
+      color: "bg-gray-600",
+    },
+    {
+      id: "git",
+      title: "Git & GitHub",
+      description: "Version control and collaboration",
+      icon: <Code className="h-6 w-6" />,
+      color: "bg-orange-600",
+    },
+    {
+      id: "docker",
+      title: "Docker",
+      description: "Containerization and deployment",
+      icon: <Globe className="h-6 w-6" />,
+      color: "bg-blue-400",
+    },
+    {
+      id: "aws",
+      title: "AWS",
+      description: "Amazon Web Services cloud platform",
+      icon: <Globe className="h-6 w-6" />,
+      color: "bg-orange-500",
     },
   ]
 
   const resources = [
-    // Video Editing Resources
     {
       id: "resource-1",
-      title: "Understanding the Premiere Pro Interface",
-      description: "A comprehensive guide to navigating Adobe Premiere Pro's workspace.",
-      type: "video",
-      thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "video-editing",
-      moduleId: "software-basics",
-      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      duration: "15 min",
-    },
-    {
-      id: "resource-2",
-      title: "The Art of Storytelling in Video",
-      description: "Learn how to craft compelling narratives through your video edits.",
-      type: "article",
-      thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "video-editing",
-      moduleId: "intro-ve",
-      url: "https://www.example.com/storytelling-article",
-      duration: "8 min read",
-    },
-    {
-      id: "resource-3",
-      title: "Essential Keyboard Shortcuts for Faster Editing",
-      description: "Boost your editing speed with these must-know shortcuts.",
-      type: "tool",
-      thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "video-editing",
-      moduleId: "software-basics",
-      url: "https://www.example.com/editing-shortcuts-tool",
-      duration: "Reference",
-    },
-    {
-      id: "resource-4",
-      title: "Practice Project: Edit a Short Travel Vlog",
-      description: "Apply your skills by editing a provided travel vlog footage.",
-      type: "practice",
-      thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "video-editing",
-      moduleId: "timeline-editing",
-      url: "https://www.example.com/travel-vlog-practice",
-      duration: "2 hours",
-    },
-    // Coding Resources
-    {
-      id: "resource-5",
-      title: "Python Variables and Data Types Explained",
-      description: "A beginner-friendly introduction to variables, numbers, strings, and booleans in Python.",
-      type: "video",
-      thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "coding-basics",
-      moduleId: "python-syntax",
-      url: "https://www.youtube.com/watch?v=rfscVS0vtbw",
-      duration: "22 min",
-    },
-    {
-      id: "resource-6",
-      title: "Your First Python Program: 'Hello, World!'",
-      description: "Write and run your very first Python program.",
-      type: "practice",
-      thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "coding-basics",
-      moduleId: "intro-coding",
-      url: "https://www.example.com/hello-world-practice",
-      duration: "30 min",
-    },
-    {
-      id: "resource-7",
-      title: "Understanding Loops in Programming",
-      description: "Dive deep into for and while loops and their applications.",
-      type: "article",
-      thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "coding-basics",
-      moduleId: "control-flow",
-      url: "https://www.example.com/loops-article",
-      duration: "12 min read",
-    },
-    {
-      id: "resource-8",
-      title: "Online Python Interpreter Tool",
-      description: "An interactive online tool to write and test Python code directly in your browser.",
-      type: "tool",
-      thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "coding-basics",
-      moduleId: "python-syntax",
-      url: "https://www.programiz.com/python-programming/online-compiler/",
-      duration: "Interactive",
-    },
-    // Web Development Resources
-    {
-      id: "resource-9",
       title: "HTML5 Semantic Elements Guide",
       description: "Learn about modern HTML5 semantic elements and their proper usage.",
       type: "article",
       thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "web-development",
-      moduleId: "html-basics",
-      url: "https://www.example.com/html5-semantic-guide",
+      roadmapId: "frontend",
+      stepId: "html-basics",
+      url: "https://developer.mozilla.org/en-US/docs/Web/HTML/Element",
       duration: "10 min read",
     },
     {
-      id: "resource-10",
+      id: "resource-2",
       title: "CSS Flexbox Complete Tutorial",
       description: "Master CSS Flexbox layout with practical examples.",
       type: "video",
       thumbnail: "/placeholder.svg?height=180&width=320",
-      pathId: "web-development",
-      moduleId: "css-styling",
+      roadmapId: "frontend",
+      stepId: "css-fundamentals",
       url: "https://www.youtube.com/watch?v=JJSoEo8JSnc",
       duration: "35 min",
     },
+    {
+      id: "resource-3",
+      title: "JavaScript ES6+ Features",
+      description: "Modern JavaScript features every developer should know.",
+      type: "article",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "javascript-basics",
+      url: "https://www.example.com/js-es6",
+      duration: "15 min read",
+    },
+    {
+      id: "resource-4",
+      title: "React Hooks Explained",
+      description: "Complete guide to React Hooks with examples.",
+      type: "video",
+      thumbnail: "/placeholder.svg?height=180&width=320",
+      roadmapId: "frontend",
+      stepId: "react-framework",
+      url: "https://www.youtube.com/watch?v=O6P86uwfdR0",
+      duration: "45 min",
+    },
   ]
 
-  const getCurrentPath = () => learningPaths.find((path) => path.id === selectedPath)
-  const getCurrentModule = () => getCurrentPath()?.modules.find((module) => module.id === selectedModule)
+  const getCurrentRoadmap = () => roleBasedRoadmaps.find((roadmap) => roadmap.id === selectedRoadmap)
+  const getCurrentStep = () => getCurrentRoadmap()?.steps.find((step) => step.id === selectedStep)
   const getCurrentResources = () =>
-    resources.filter((resource) => resource.pathId === selectedPath && resource.moduleId === selectedModule)
+    resources.filter((resource) => resource.roadmapId === selectedRoadmap && resource.stepId === selectedStep)
 
-  const handlePathClick = (pathId: string) => {
-    setSelectedPath(pathId)
-    setCurrentView("modules")
-    setSelectedModule(null)
+  const handleRoadmapClick = (roadmapId: string) => {
+    setSelectedRoadmap(roadmapId)
+    setCurrentView("roadmap-detail")
+    setSelectedStep(null)
   }
 
-  const handleModuleClick = (moduleId: string) => {
-    setSelectedModule(moduleId)
+  const handleStepClick = (stepId: string) => {
+    setSelectedStep(stepId)
     setCurrentView("resources")
   }
 
-  const handleBackToModules = () => {
-    setCurrentView("modules")
-    setSelectedModule(null)
+  const handleBackToRoadmaps = () => {
+    setCurrentView("roadmaps")
+    setSelectedRoadmap(null)
+    setSelectedStep(null)
   }
 
-  const handleBackToPaths = () => {
-    setCurrentView("paths")
-    setSelectedPath(null)
-    setSelectedModule(null)
+  const handleBackToRoadmap = () => {
+    setCurrentView("roadmap-detail")
+    setSelectedStep(null)
   }
 
   const getTypeIcon = (type: string) => {
@@ -316,312 +297,295 @@ export default function Component() {
   }
 
   return (
-    <div className="flex min-h-screen w-full">
-      <aside className="hidden w-64 flex-col border-r bg-background p-4 md:flex">
-        <div className="mb-6 flex items-center gap-2">
-          <Code className="h-6 w-6" />
-          <span className="text-lg font-semibold">LearnFlow</span>
-        </div>
-        <ScrollArea className="flex-1">
-          <nav className="grid gap-2">
-            <h3 className="mb-2 text-sm font-medium text-muted-foreground">Learning Paths</h3>
-            {learningPaths.map((path) => (
-              <div key={path.id} className="grid gap-1">
-                <button
-                  onClick={() => handlePathClick(path.id)}
-                  className={`flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-muted text-left ${
-                    selectedPath === path.id ? "bg-muted" : ""
-                  }`}
-                >
-                  <span>{path.name}</span>
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-                {selectedPath === path.id && (
-                  <div className="ml-4 grid gap-1 border-l pl-4">
-                    {path.modules.map((module) => (
-                      <button
-                        key={module.id}
-                        onClick={() => handleModuleClick(module.id)}
-                        className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-muted text-left ${
-                          selectedModule === module.id ? "bg-muted" : ""
-                        }`}
-                      >
-                        {module.name}
-                      </button>
-                    ))}
-                  </div>
-                )}
+    <div className="min-h-screen bg-slate-900 text-white">
+      {/* Header */}
+      <header className="border-b border-slate-800 bg-slate-900/95 backdrop-blur supports-[backdrop-filter]:bg-slate-900/60">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-6">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded bg-purple-600">
+                <Code className="h-5 w-5" />
               </div>
-            ))}
-          </nav>
-        </ScrollArea>
-      </aside>
-
-      <div className="flex flex-1 flex-col">
-        <header className="sticky top-0 z-10 flex h-14 items-center justify-between border-b bg-background px-4 md:px-6">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input type="search" placeholder="Search resources..." className="w-full rounded-lg bg-muted pl-9" />
+              <span className="text-xl font-bold">LearnFlow</span>
+            </Link>
+            <nav className="hidden md:flex items-center gap-6">
+              <Link href="#" className="text-sm text-slate-300 hover:text-white">
+                Start Here
+              </Link>
+              <Link href="#" className="text-sm text-slate-300 hover:text-white">
+                Roadmaps
+              </Link>
+              <Link href="#" className="text-sm text-slate-300 hover:text-white">
+                AI Tutor
+              </Link>
+              <Link href="#" className="text-sm text-slate-300 hover:text-white">
+                Teams
+              </Link>
+            </nav>
           </div>
-          <Avatar className="ml-4 h-9 w-9">
-            <AvatarImage src="/placeholder-user.jpg" alt="User Avatar" />
-            <AvatarFallback>JP</AvatarFallback>
-          </Avatar>
-        </header>
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" className="text-slate-300 hover:text-white">
+              Login
+            </Button>
+            <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+              Sign Up
+            </Button>
+          </div>
+        </div>
+      </header>
 
-        <main className="flex-1 p-4 md:p-6">
-          {/* Learning Paths View */}
-          {currentView === "paths" && (
-            <section>
-              <div className="mb-8">
-                <h1 className="text-3xl font-bold">Learning Paths</h1>
-                <p className="mt-2 text-muted-foreground">
-                  Choose a structured learning path to master new skills step by step.
-                </p>
+      <main className="container mx-auto px-4 py-8">
+        {/* Roadmaps Overview */}
+        {currentView === "roadmaps" && (
+          <div className="space-y-12">
+            {/* Hero Section */}
+            <div className="text-center space-y-4">
+              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Developer Roadmaps
+              </h1>
+              <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+                LearnFlow is a community effort to create roadmaps, guides and other educational content to help guide
+                developers in picking up a path and guide their learnings.
+              </p>
+            </div>
+
+            {/* Role-based Roadmaps */}
+            <section className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold text-slate-300 mb-2">Role-based Roadmaps</h2>
               </div>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {learningPaths.map((path) => (
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {roleBasedRoadmaps.map((roadmap) => (
                   <Card
-                    key={path.id}
-                    className="cursor-pointer hover:shadow-lg transition-shadow"
-                    onClick={() => handlePathClick(path.id)}
+                    key={roadmap.id}
+                    className="bg-slate-800 border-slate-700 hover:bg-slate-750 transition-colors cursor-pointer group"
+                    onClick={() => handleRoadmapClick(roadmap.id)}
                   >
-                    <CardHeader className="p-0">
-                      <Image
-                        src={path.thumbnail || "/placeholder.svg"}
-                        alt={path.name}
-                        width={300}
-                        height={200}
-                        className="aspect-video w-full rounded-t-lg object-cover"
-                      />
-                    </CardHeader>
                     <CardContent className="p-6">
-                      <div className="mb-2 flex items-center justify-between">
-                        <Badge variant="outline">{path.level}</Badge>
-                        <span className="text-sm text-muted-foreground">{path.duration}</span>
+                      <div className="flex items-start justify-between mb-4">
+                        <div className={`p-3 rounded-lg ${roadmap.color} text-white`}>{roadmap.icon}</div>
+                        {roadmap.badge && (
+                          <Badge variant="secondary" className="bg-green-600 text-white">
+                            {roadmap.badge}
+                          </Badge>
+                        )}
                       </div>
-                      <CardTitle className="text-xl font-bold mb-2">{path.name}</CardTitle>
-                      <CardDescription className="mb-4">{path.description}</CardDescription>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">{path.modules.length} modules</span>
-                        <ChevronRight className="h-4 w-4" />
+                      <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                        {roadmap.title}
+                      </h3>
+                      <p className="text-sm text-slate-400 leading-relaxed">{roadmap.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+
+                {/* Create your own roadmap card */}
+                <Card className="bg-slate-800 border-slate-700 border-dashed hover:bg-slate-750 transition-colors cursor-pointer group">
+                  <CardContent className="p-6 flex flex-col items-center justify-center text-center min-h-[200px]">
+                    <div className="p-3 rounded-lg bg-slate-700 text-slate-400 mb-4 group-hover:bg-slate-600 transition-colors">
+                      <Plus className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-slate-300 mb-2 group-hover:text-purple-400 transition-colors">
+                      Create your own Roadmap
+                    </h3>
+                    <p className="text-sm text-slate-500">Build a custom learning path</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+            {/* Skill-based Roadmaps */}
+            <section className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-2xl font-semibold text-slate-300 mb-2">Skill-based Roadmaps</h2>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+                {skillBasedRoadmaps.map((skill) => (
+                  <Card
+                    key={skill.id}
+                    className="bg-slate-800 border-slate-700 hover:bg-slate-750 transition-colors cursor-pointer group"
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded ${skill.color} text-white`}>{skill.icon}</div>
+                        <div>
+                          <h3 className="font-medium text-white group-hover:text-purple-400 transition-colors">
+                            {skill.title}
+                          </h3>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
                 ))}
               </div>
             </section>
-          )}
+          </div>
+        )}
 
-          {/* Modules View */}
-          {currentView === "modules" && getCurrentPath() && (
-            <section>
-              <div className="mb-6 flex items-center gap-4">
-                <Button variant="ghost" size="sm" onClick={handleBackToPaths}>
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Paths
-                </Button>
-              </div>
-              <div className="mb-8">
-                <h1 className="text-3xl font-bold">{getCurrentPath()?.name}</h1>
-                <p className="mt-2 text-muted-foreground">{getCurrentPath()?.description}</p>
-                <div className="mt-4 flex gap-4 text-sm text-muted-foreground">
-                  <span>Duration: {getCurrentPath()?.duration}</span>
-                  <span>Level: {getCurrentPath()?.level}</span>
-                  <span>Modules: {getCurrentPath()?.modules.length}</span>
+        {/* Roadmap Detail View */}
+        {currentView === "roadmap-detail" && getCurrentRoadmap() && (
+          <div className="space-y-8">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleBackToRoadmaps}
+                className="text-slate-400 hover:text-white"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Roadmaps
+              </Button>
+            </div>
+
+            <div className="text-center space-y-4">
+              <div className="flex justify-center">
+                <div className={`p-4 rounded-lg ${getCurrentRoadmap()?.color} text-white`}>
+                  {getCurrentRoadmap()?.icon}
                 </div>
               </div>
-              <div className="grid gap-4">
-                {getCurrentPath()?.modules.map((module, index) => (
-                  <Card
-                    key={module.id}
-                    className="cursor-pointer hover:shadow-md transition-shadow"
-                    onClick={() => handleModuleClick(module.id)}
-                  >
-                    <CardContent className="p-6">
-                      <div className="flex items-center justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-medium">
-                              {index + 1}
-                            </div>
-                            <CardTitle className="text-lg">{module.name}</CardTitle>
-                          </div>
-                          <CardDescription className="ml-11">{module.description}</CardDescription>
-                          <div className="ml-11 mt-2 text-sm text-muted-foreground">Duration: {module.duration}</div>
+              <h1 className="text-4xl font-bold text-white">{getCurrentRoadmap()?.title} Roadmap</h1>
+              <p className="text-lg text-slate-400 max-w-2xl mx-auto">{getCurrentRoadmap()?.description}</p>
+            </div>
+
+            <div className="grid gap-4 max-w-4xl mx-auto">
+              {getCurrentRoadmap()?.steps.map((step, index) => (
+                <Card
+                  key={step.id}
+                  className="bg-slate-800 border-slate-700 hover:bg-slate-750 transition-colors cursor-pointer group"
+                  onClick={() => handleStepClick(step.id)}
+                >
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-600 text-white text-sm font-medium">
+                          {index + 1}
                         </div>
-                        <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                        <div>
+                          <h3 className="text-lg font-semibold text-white group-hover:text-purple-400 transition-colors">
+                            {step.title}
+                          </h3>
+                          <p className="text-slate-400">{step.description}</p>
+                        </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Resources View */}
-          {currentView === "resources" && getCurrentModule() && (
-            <section>
-              <div className="mb-6 flex items-center gap-4">
-                <Button variant="ghost" size="sm" onClick={handleBackToModules}>
-                  <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back to Modules
-                </Button>
-              </div>
-              <div className="mb-8">
-                <h1 className="text-3xl font-bold">{getCurrentModule()?.name}</h1>
-                <p className="mt-2 text-muted-foreground">{getCurrentModule()?.description}</p>
-                <div className="mt-4 text-sm text-muted-foreground">Duration: {getCurrentModule()?.duration}</div>
-              </div>
-
-              <Tabs defaultValue="all" className="mb-6">
-                <TabsList className="grid w-full grid-cols-5">
-                  <TabsTrigger value="all">All</TabsTrigger>
-                  <TabsTrigger value="video">
-                    <Video className="mr-2 h-4 w-4" /> Video
-                  </TabsTrigger>
-                  <TabsTrigger value="article">
-                    <Book className="mr-2 h-4 w-4" /> Article
-                  </TabsTrigger>
-                  <TabsTrigger value="tool">
-                    <Wrench className="mr-2 h-4 w-4" /> Tool
-                  </TabsTrigger>
-                  <TabsTrigger value="practice">
-                    <ClipboardList className="mr-2 h-4 w-4" /> Practice
-                  </TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="all">
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {getCurrentResources().map((resource) => (
-                      <Card key={resource.id}>
-                        <CardHeader className="p-0">
-                          {resource.type === "video" && resource.url && getYouTubeVideoId(resource.url) ? (
-                            <div className="relative w-full aspect-video rounded-t-lg overflow-hidden">
-                              <iframe
-                                src={`https://www.youtube.com/embed/${getYouTubeVideoId(resource.url)}`}
-                                title={resource.title}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                className="absolute inset-0 w-full h-full"
-                              ></iframe>
-                            </div>
-                          ) : (
-                            <div className="relative">
-                              <Image
-                                src={resource.thumbnail || "/placeholder.svg"}
-                                alt={resource.title}
-                                width={320}
-                                height={180}
-                                className="aspect-video w-full rounded-t-lg object-cover"
-                              />
-                              <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-t-lg">
-                                {resource.type === "video" ? (
-                                  <Play className="h-12 w-12 text-white" />
-                                ) : (
-                                  <ExternalLink className="h-8 w-8 text-white" />
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </CardHeader>
-                        <CardContent className="p-4">
-                          <div className="mb-2 flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              {getTypeIcon(resource.type)}
-                              <Badge variant="secondary" className="capitalize">
-                                {resource.type}
-                              </Badge>
-                            </div>
-                            <span className="text-xs text-muted-foreground">{resource.duration}</span>
-                          </div>
-                          <CardTitle className="text-lg font-semibold mb-2">{resource.title}</CardTitle>
-                          <CardDescription className="line-clamp-2 mb-4">{resource.description}</CardDescription>
-                          {resource.url && (
-                            <Link href={resource.url} target="_blank" rel="noopener noreferrer" className="block">
-                              <Button variant="outline" size="sm" className="w-full bg-transparent">
-                                <ExternalLink className="h-4 w-4 mr-2" />
-                                Access Resource
-                              </Button>
-                            </Link>
-                          )}
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </TabsContent>
-
-                {/* Filtered tabs */}
-                {["video", "article", "tool", "practice"].map((type) => (
-                  <TabsContent key={type} value={type}>
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                      {getCurrentResources()
-                        .filter((r) => r.type === type)
-                        .map((resource) => (
-                          <Card key={resource.id}>
-                            <CardHeader className="p-0">
-                              {resource.type === "video" && resource.url && getYouTubeVideoId(resource.url) ? (
-                                <div className="relative w-full aspect-video rounded-t-lg overflow-hidden">
-                                  <iframe
-                                    src={`https://www.youtube.com/embed/${getYouTubeVideoId(resource.url)}`}
-                                    title={resource.title}
-                                    frameBorder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    className="absolute inset-0 w-full h-full"
-                                  ></iframe>
-                                </div>
-                              ) : (
-                                <div className="relative">
-                                  <Image
-                                    src={resource.thumbnail || "/placeholder.svg"}
-                                    alt={resource.title}
-                                    width={320}
-                                    height={180}
-                                    className="aspect-video w-full rounded-t-lg object-cover"
-                                  />
-                                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-t-lg">
-                                    {resource.type === "video" ? (
-                                      <Play className="h-12 w-12 text-white" />
-                                    ) : (
-                                      <ExternalLink className="h-8 w-8 text-white" />
-                                    )}
-                                  </div>
-                                </div>
-                              )}
-                            </CardHeader>
-                            <CardContent className="p-4">
-                              <div className="mb-2 flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  {getTypeIcon(resource.type)}
-                                  <Badge variant="secondary" className="capitalize">
-                                    {resource.type}
-                                  </Badge>
-                                </div>
-                                <span className="text-xs text-muted-foreground">{resource.duration}</span>
-                              </div>
-                              <CardTitle className="text-lg font-semibold mb-2">{resource.title}</CardTitle>
-                              <CardDescription className="line-clamp-2 mb-4">{resource.description}</CardDescription>
-                              {resource.url && (
-                                <Link href={resource.url} target="_blank" rel="noopener noreferrer" className="block">
-                                  <Button variant="outline" size="sm" className="w-full bg-transparent">
-                                    <ExternalLink className="h-4 w-4 mr-2" />
-                                    Access Resource
-                                  </Button>
-                                </Link>
-                              )}
-                            </CardContent>
-                          </Card>
-                        ))}
+                      <ChevronRight className="h-5 w-5 text-slate-400 group-hover:text-purple-400 transition-colors" />
                     </div>
-                  </TabsContent>
-                ))}
-              </Tabs>
-            </section>
-          )}
-        </main>
-      </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Resources View */}
+        {currentView === "resources" && getCurrentStep() && (
+          <div className="space-y-8">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleBackToRoadmap}
+                className="text-slate-400 hover:text-white"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Roadmap
+              </Button>
+            </div>
+
+            <div className="text-center space-y-4">
+              <h1 className="text-4xl font-bold text-white">{getCurrentStep()?.title}</h1>
+              <p className="text-lg text-slate-400 max-w-2xl mx-auto">{getCurrentStep()?.description}</p>
+            </div>
+
+            <Tabs defaultValue="all" className="max-w-6xl mx-auto">
+              <TabsList className="grid w-full grid-cols-5 bg-slate-800">
+                <TabsTrigger value="all" className="data-[state=active]:bg-slate-700">
+                  All
+                </TabsTrigger>
+                <TabsTrigger value="video" className="data-[state=active]:bg-slate-700">
+                  <Video className="mr-2 h-4 w-4" /> Video
+                </TabsTrigger>
+                <TabsTrigger value="article" className="data-[state=active]:bg-slate-700">
+                  <Book className="mr-2 h-4 w-4" /> Article
+                </TabsTrigger>
+                <TabsTrigger value="tool" className="data-[state=active]:bg-slate-700">
+                  <Wrench className="mr-2 h-4 w-4" /> Tool
+                </TabsTrigger>
+                <TabsTrigger value="practice" className="data-[state=active]:bg-slate-700">
+                  <ClipboardList className="mr-2 h-4 w-4" /> Practice
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="all" className="mt-8">
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {getCurrentResources().map((resource) => (
+                    <Card key={resource.id} className="bg-slate-800 border-slate-700">
+                      <CardHeader className="p-0">
+                        {resource.type === "video" && resource.url && getYouTubeVideoId(resource.url) ? (
+                          <div className="relative w-full aspect-video rounded-t-lg overflow-hidden">
+                            <iframe
+                              src={`https://www.youtube.com/embed/${getYouTubeVideoId(resource.url)}`}
+                              title={resource.title}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              className="absolute inset-0 w-full h-full"
+                            ></iframe>
+                          </div>
+                        ) : (
+                          <div className="relative">
+                            <Image
+                              src={resource.thumbnail || "/placeholder.svg"}
+                              alt={resource.title}
+                              width={320}
+                              height={180}
+                              className="aspect-video w-full rounded-t-lg object-cover"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-t-lg">
+                              {resource.type === "video" ? (
+                                <Play className="h-12 w-12 text-white" />
+                              ) : (
+                                <ExternalLink className="h-8 w-8 text-white" />
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </CardHeader>
+                      <CardContent className="p-4">
+                        <div className="mb-2 flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            {getTypeIcon(resource.type)}
+                            <Badge variant="secondary" className="capitalize bg-slate-700 text-slate-300">
+                              {resource.type}
+                            </Badge>
+                          </div>
+                          <span className="text-xs text-slate-400">{resource.duration}</span>
+                        </div>
+                        <CardTitle className="text-lg font-semibold mb-2 text-white">{resource.title}</CardTitle>
+                        <CardDescription className="line-clamp-2 mb-4 text-slate-400">
+                          {resource.description}
+                        </CardDescription>
+                        {resource.url && (
+                          <Link href={resource.url} target="_blank" rel="noopener noreferrer" className="block">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="w-full bg-transparent border-slate-600 text-slate-300 hover:bg-slate-700"
+                            >
+                              <ExternalLink className="h-4 w-4 mr-2" />
+                              Access Resource
+                            </Button>
+                          </Link>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </TabsContent>
+
+              {/* Other tab contents would be similar with filtered resources */}
+            </Tabs>
+          </div>
+        )}
+      </main>
     </div>
   )
 }
